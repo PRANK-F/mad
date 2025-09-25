@@ -1,0 +1,764 @@
+﻿1.
+package com.example.program1;
+
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+
+public class MainActivity extends AppCompatActivity {
+
+
+   private EditText nameInput;
+   private TextView resultText;
+   private Button greetButton;
+
+
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_main);
+
+
+       nameInput = findViewById(R.id.nameInput);
+       resultText = findViewById(R.id.resultText);
+       greetButton = findViewById(R.id.greetButton);
+
+
+       greetButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               String name = nameInput.getText().toString().trim();
+               if (!name.isEmpty()) {
+                   resultText.setText("Hello, " + name + "!");
+                   // Change text color to blue
+                   resultText.setTextColor(ContextCompat.getColor(MainActivity.this, android.R.color.holo_blue_dark));
+               } else {
+                   resultText.setText("Please enter your name.");
+                   // Change text color to red
+                   resultText.setTextColor(ContextCompat.getColor(MainActivity.this, android.R.color.holo_red_dark));
+               }
+           }
+       });
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:gravity="center"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:padding="20dp">
+
+
+   <EditText
+       android:id="@+id/nameInput"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Enter name" />
+
+
+   <Button
+       android:id="@+id/greetButton"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Say Hello" />
+
+
+   <TextView
+       android:id="@+id/resultText"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="18sp"
+       android:layout_marginTop="20dp" />
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3.
+package com.example.program2; // Replace with your package name
+
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class MainActivity extends AppCompatActivity {
+
+
+   ImageView drawingImageView;
+   Bitmap bitmap;
+   Canvas canvas;
+   Paint paint;
+
+
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_main);
+
+
+       drawingImageView = findViewById(R.id.drawingImageView);
+
+
+       // Create a new mutable bitmap
+       bitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888); // Adjust size as needed
+       canvas = new Canvas(bitmap);
+       paint = new Paint();
+
+
+       // Set the bitmap to the ImageView
+       drawingImageView.setImageBitmap(bitmap);
+
+
+       // Draw primitives
+       drawPrimitives();
+   }
+
+
+   private void drawPrimitives() {
+       // Draw a rectangle
+       paint.setColor(Color.RED);
+       paint.setStyle(Paint.Style.FILL);
+       canvas.drawRect(50, 50, 300, 200, paint);
+
+
+       // Draw a circle
+       paint.setColor(Color.BLUE);
+       paint.setStyle(Paint.Style.STROKE); // Outline
+       paint.setStrokeWidth(10);
+       canvas.drawCircle(500, 300, 100, paint);
+
+
+       // Draw a line
+       paint.setColor(Color.GREEN);
+       paint.setStrokeWidth(5);
+       canvas.drawLine(100, 400, 700, 500, paint);
+
+
+       // Draw text
+       paint.setColor(Color.BLACK);
+       paint.setTextSize(60);
+       canvas.drawText("Hello Primitives!", 100, 700, paint);
+
+
+       // Invalidate the ImageView to refresh the drawing
+       drawingImageView.invalidate();
+   }
+}
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   tools:context=".MainActivity">
+
+
+   <ImageView
+       android:id="@+id/drawingImageView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:contentDescription="@string/drawing_surface" />
+
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4.
+package com.example.program4;
+
+
+import android.os.Bundle;
+import android.util.Patterns;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class MainActivity extends AppCompatActivity {
+   @Override
+   protected void onCreate(Bundle b) {
+       super.onCreate(b);
+       setContentView(R.layout.activity_main);
+
+
+       EditText email = findViewById(R.id.email), pass = findViewById(R.id.password);
+       TextView result = findViewById(R.id.result);
+       findViewById(R.id.loginBtn).setOnClickListener(v -> {
+           if (email.getText().toString().isEmpty())
+               result.setText("Enter Email");
+           else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches())
+               result.setText("Invalid Email");
+           else if (pass.getText().toString().length() < 6)
+               result.setText("Password min 6 chars");
+           else
+               result.setText("Login Successful!");
+       });
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:gravity="center"
+   android:padding="20dp">
+
+
+   <EditText
+       android:id="@+id/email"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Email"
+       android:inputType="textEmailAddress"/>
+
+
+   <EditText
+       android:id="@+id/password"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Password"
+       android:inputType="textPassword"/>
+
+
+   <Button
+       android:id="@+id/loginBtn"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Login"/>
+
+
+   <TextView
+       android:id="@+id/result"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="15dp"
+       android:textColor="@android:color/holo_red_dark"/>
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5.
+package com.example.program5;
+
+
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class MainActivity extends AppCompatActivity {
+   @Override
+   protected void onCreate(Bundle b) {
+       super.onCreate(b);
+       setContentView(R.layout.activity_main);
+
+
+       Button btn = findViewById(R.id.msgBtn);
+
+
+       btn.setOnClickListener(v -> {
+           new AlertDialog.Builder(this)
+                   .setTitle("New Message")
+                   .setMessage("You have received a new message!")
+                   .setPositiveButton("OK", null)
+                   .show();
+       });
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:gravity="center"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
+
+
+   <Button
+       android:id="@+id/msgBtn"
+       android:text="Simulate Message"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6.
+package com.example.program6;
+
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class MainActivity extends AppCompatActivity {
+   @Override
+   protected void onCreate(Bundle b) {
+       super.onCreate(b);
+       setContentView(R.layout.activity_main);
+
+
+       TextView status = findViewById(R.id.statusText);
+       Button start = findViewById(R.id.startBtn);
+
+
+       start.setOnClickListener(v -> {
+           new Thread(() -> {
+               try {
+                   Thread.sleep(3000); // Simulate long task
+               } catch (InterruptedException e) { e.printStackTrace(); }
+
+
+               runOnUiThread(() -> status.setText("Task Completed!"));
+           }).start();
+       });
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:gravity="center"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
+
+
+   <TextView
+       android:id="@+id/statusText"
+       android:text="Waiting..."
+       android:textSize="20sp"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+
+
+   <Button
+       android:id="@+id/startBtn"
+       android:text="Start Task"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+</LinearLayout>
+
+
+
+
+
+
+
+
+7.
+package com.example.program7;
+
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+
+public class MainActivity extends AppCompatActivity {
+   @Override
+   protected void onCreate(Bundle b) {
+       super.onCreate(b);
+       TextView tv = new TextView(this);
+       setContentView(tv);
+
+
+       LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+       if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+           ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+       } else {
+           Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+           if(loc != null) tv.setText("Lat: "+loc.getLatitude()+"\nLon: "+loc.getLongitude());
+           else tv.setText("Location not available");
+       }
+   }
+}
+
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+   package="com.example.program7">
+
+
+   <uses-permission
+       android:name="android.permission.ACCESS_FINE_LOCATION"
+       tools:ignore="CoarseFineLocation" />
+
+
+   <application
+       android:label="GPS App">
+       <activity android:name=".MainActivity"
+           android:exported="true">
+           <intent-filter>
+               <action android:name="android.intent.action.MAIN"/>
+               <category android:name="android.intent.category.LAUNCHER"/>
+           </intent-filter>
+       </activity>
+   </application>
+</manifest>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:gravity="center"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
+   <TextView android:id="@+id/tv"
+       android:text="Location"
+       android:textSize="18sp"
+       android:layout_height="16dp"
+       android:layout_width="16dp"/>
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8.
+package com.example.program8;
+
+
+import android.os.Bundle;
+import android.os.Environment;
+import android.widget.Button;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import java.io.File;
+import java.io.FileOutputStream;
+
+
+public class MainActivity extends AppCompatActivity {
+   @Override
+   protected void onCreate(Bundle b) {
+       super.onCreate(b);
+       Button btn = new Button(this);
+       btn.setText("Write to SD Card");
+       setContentView(btn);
+
+
+       btn.setOnClickListener(v -> {
+           try {
+               // Create folder and file
+               File dir = new File(Environment.getExternalStorageDirectory(), "MyAppData");
+               dir.mkdirs(); // ensure folder exists
+               File file = new File(dir, "data.txt");
+
+
+               // Write data
+               try (FileOutputStream f = new FileOutputStream(file)) {
+                   f.write("Hello SD Card!".getBytes());
+               }
+
+
+               Toast.makeText(this, "Written!", Toast.LENGTH_SHORT).show();
+           } catch (Exception e) {
+               e.printStackTrace();
+               Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+           }
+       });
+   }
+}
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:id="@+id/main"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   tools:context=".MainActivity">
+
+
+   <Button
+       android:id="@+id/btnWrite"
+       android:layout_width="324dp"
+       android:layout_height="97dp"
+       android:text="Write to SD Card"
+       tools:ignore="MissingConstraints"
+       tools:layout_editor_absoluteX="43dp"
+       tools:layout_editor_absoluteY="317dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
